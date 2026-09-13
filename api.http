@@ -44,7 +44,6 @@ Content-Type: application/json
 {
   "name": "Karen",
   "age": 24,
-  "date_of_birth": "2002-05-15",
   "gender": "M",
   "phone_number": "9965231254",
   "address": "Thane, Maharashtra",
@@ -77,7 +76,6 @@ Content-Type: application/json
 {
   "name": "Johnathan Doe",
   "age": 30,
-  "date_of_birth": "1996-05-15",
   "gender": "M",
   "phone_number": "9876543222",
   "address": "Mumbai, Maharashtra",
