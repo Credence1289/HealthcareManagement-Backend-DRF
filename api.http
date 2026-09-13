@@ -1,0 +1,209 @@
+@baseUrl = http://127.0.0.1:8000/api
+@email = vinayak@example.com
+@password = TestPassword@123
+
+### ===============================
+### ===============================
+
+### Register a user
+POST {{baseUrl}}/auth/register/
+Content-Type: application/json
+
+{
+  "name": "Vinayak",
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+###
+
+### Login 
+# @name login
+POST {{baseUrl}}/auth/login/
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+###
+
+@accessToken = {{login.response.body.$.access}}
+
+### =============================
+### PATIENTS
+### =============================
+
+### Create a patient
+# @name createPatient
+POST {{baseUrl}}/patients/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Karen",
+  "age": 24,
+  "date_of_birth": "2002-05-15",
+  "gender": "M",
+  "phone_number": "9965231254",
+  "address": "Thane, Maharashtra",
+  "illness": "Cough",
+  "medical_notes": "Dry cough and through ache ."
+}
+###
+
+@patientId = {{createPatient.response.body.$.id}}
+
+###
+
+### Get all patients 
+GET {{baseUrl}}/patients/
+Authorization: Bearer {{accessToken}}
+
+###
+
+### Get one patient
+GET {{baseUrl}}/patients/{{patientId}}/
+Authorization: Bearer {{accessToken}}
+
+###
+
+### update a patient(PUT)
+PUT {{baseUrl}}/patients/{{patientId}}/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Johnathan Doe",
+  "age": 30,
+  "date_of_birth": "1996-05-15",
+  "gender": "M",
+  "phone_number": "9876543222",
+  "address": "Mumbai, Maharashtra",
+  "illness": "Seasonal fever",
+  "medical_notes": "Follow-up after three days."
+}
+
+###
+
+### Partially update a patient(PATCH)
+PATCH {{baseUrl}}/patients/{{patientId}}/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "illness": "Recovered",
+  "medical_notes": "No further treatment needed."
+}
+
+###
+
+### Delete a patient
+
+DELETE {{baseUrl}}/patients/{{patientId}}/
+Authorization: Bearer {{accessToken}}
+
+### ==================================
+### DOCTORS
+### ==================================
+### Create a doctor
+# @name createDoctor
+POST {{baseUrl}}/doctors/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Dr. Raj Yadav",
+  "specialization": "Cardiology",
+  "phone_number": "9965212548",
+  "email": "raj.yadav@example.com",
+  "experience_years": 15
+}
+
+###
+
+@doctorId = {{createDoctor.response.body.$.id}}
+
+###
+
+### Get all doctors
+GET {{baseUrl}}/doctors/
+Authorization: Bearer {{accessToken}}
+
+###
+
+### Get one doctor
+GET {{baseUrl}}/doctors/{{doctorId}}/
+Authorization: Bearer {{accessToken}}
+
+###
+
+### Update a doctor(PUT)
+PUT {{baseUrl}}/doctors/{{doctorId}}/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Dr. Anjali Sharma",
+  "specialization": "Cardiology",
+  "phone_number": "9876543299",
+  "email": "anjali.sharma@example.com",
+  "experience_years": 11
+}
+
+###
+
+### Partially update a doctor(PATCH)
+PATCH {{baseUrl}}/doctors/{{doctorId}}/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "experience_years": 12
+}
+
+###
+
+### Delete a doctor
+
+DELETE {{baseUrl}}/doctors/{{doctorId}}/
+Authorization: Bearer {{accessToken}}
+
+### ==========================
+### PATIENT–DOCTOR MAPPINGS
+### ==========================
+
+### Create a patient-doctor mapping
+# @name createMapping
+POST {{baseUrl}}/mappings/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "patient": {{patientId}},
+  "doctor": {{doctorId}}
+}
+
+###
+
+@mappingId = {{createMapping.response.body.$.id}}
+
+###
+
+### Get all mappings
+GET {{baseUrl}}/mappings/
+Authorization: Bearer {{accessToken}}
+
+###
+
+### Get mappings for one patient
+GET {{baseUrl}}/mappings/{{patientId}}/
+Authorization: Bearer {{accessToken}}
+
+###
+
+### Delete one mapping
+
+DELETE {{baseUrl}}/mappings/{{mappingId}}/delete/
+Authorization: Bearer {{accessToken}}
